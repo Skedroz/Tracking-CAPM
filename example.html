@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daily Tracker — Filled Example</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f8fafc;--panel:#ffffff;--panel2:#f1f5f9;--panel3:#e2e8f0;
+  --navy:#0f172a;--navy2:#334155;--navy3:#475569;
+  --silver:#64748b;--text:#1e293b;
+  --success:#16a34a;--danger:#dc2626;--amber:#d97706;--blue:#2563eb;
+  --border:rgba(15,23,42,.1);--border2:rgba(15,23,42,.22);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:15px;line-height:1.6;}
+
+/* ── HEADER ── */
+.header{background:var(--panel);border-bottom:2px solid var(--navy);padding:18px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 1px 3px rgba(15,23,42,.06);}
+.header-left{display:flex;align-items:center;gap:14px;}
+.header-icon{width:42px;height:42px;background:var(--navy);border-radius:8px;display:grid;place-items:center;font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:14px;color:#fff;}
+.header-title{font-size:17px;font-weight:700;color:var(--navy);}
+.header-sub{font-size:12px;color:var(--silver);font-family:'IBM Plex Mono',monospace;margin-top:2px;}
+.example-badge{background:var(--amber);color:#fff;font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;padding:5px 12px;border-radius:20px;letter-spacing:.06em;}
+
+/* ── EXAMPLE NOTICE ── */
+.example-notice{background:var(--navy);padding:14px 32px;display:flex;align-items:center;gap:12px;}
+.example-notice-icon{font-size:18px;}
+.example-notice-text{font-size:13px;color:rgba(255,255,255,.8);font-family:'IBM Plex Mono',monospace;}
+.example-notice-text strong{color:#fff;}
+
+/* ── CONTAINER ── */
+.container{max-width:740px;margin:0 auto;padding:32px 20px 80px;}
+
+/* ── SECTION ── */
+.section{background:var(--panel);border:1px solid var(--border);border-radius:12px;margin-bottom:20px;overflow:hidden;box-shadow:0 1px 2px rgba(15,23,42,.04);}
+.section-head{background:var(--panel2);padding:14px 22px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border);}
+.section-label{font-size:12px;font-family:'IBM Plex Mono',monospace;letter-spacing:.1em;color:var(--navy3);text-transform:uppercase;font-weight:600;}
+.section-badge{font-size:11px;font-family:'IBM Plex Mono',monospace;color:var(--success);background:rgba(22,163,74,.08);border:1px solid rgba(22,163,74,.2);padding:2px 8px;border-radius:4px;margin-left:auto;}
+.section-body{padding:22px;}
+
+/* ── FIELDS ── */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;}
+@media(max-width:540px){.grid-2,.grid-3{grid-template-columns:1fr;}}
+.field{display:flex;flex-direction:column;gap:7px;}
+.field label{font-size:12px;font-weight:600;color:var(--silver);letter-spacing:.04em;text-transform:uppercase;}
+.field .target{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--navy3);opacity:.8;}
+
+/* ── FILLED INPUTS ── */
+.filled-input{background:var(--panel2);border:1px solid var(--border);border-radius:8px;padding:11px 14px;font-family:'IBM Plex Mono',monospace;font-size:17px;font-weight:600;color:var(--navy);pointer-events:none;user-select:none;}
+.filled-input.hit{border-color:rgba(22,163,74,.3);background:rgba(22,163,74,.05);color:var(--success);}
+.filled-input.near{border-color:rgba(217,119,6,.3);background:rgba(217,119,6,.04);color:var(--amber);}
+.filled-text{background:var(--panel2);border:1px solid var(--border);border-radius:8px;padding:11px 14px;font-family:'Inter',sans-serif;font-size:14px;color:var(--navy);pointer-events:none;user-select:none;}
+.filled-select{background:var(--panel2);border:1px solid var(--border);border-radius:8px;padding:11px 14px;font-family:'Inter',sans-serif;font-size:15px;color:var(--navy);pointer-events:none;user-select:none;}
+.filled-date{background:var(--panel2);border:1px solid var(--border);border-radius:8px;padding:11px 14px;font-family:'IBM Plex Mono',monospace;font-size:14px;color:var(--navy);pointer-events:none;}
+
+/* ── METRIC BARS ── */
+.metric-wrap{position:relative;}
+.metric-bar{height:4px;background:var(--panel3);border-radius:2px;margin-top:7px;}
+.metric-fill{height:100%;border-radius:2px;}
+.metric-fill.hit{background:var(--success);}
+.metric-fill.near{background:var(--amber);}
+.metric-fill.low{background:var(--danger);}
+
+/* ── TIME BLOCKS ── */
+.block-row{display:grid;grid-template-columns:auto 130px 1fr;align-items:start;gap:14px;padding:16px 0;border-bottom:1px solid var(--border);}
+.block-row:last-child{border-bottom:none;padding-bottom:0;}
+.block-check-display{width:24px;height:24px;background:var(--navy);border-radius:6px;display:grid;place-items:center;color:#fff;font-size:14px;flex-shrink:0;margin-top:3px;}
+.block-info .block-time{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--navy);font-weight:600;}
+.block-info .block-desc{font-size:12px;color:var(--silver);margin-top:3px;line-height:1.5;}
+.block-note-display{background:var(--panel2);border:1px solid var(--border);border-radius:7px;padding:9px 12px;font-size:13px;color:var(--navy3);line-height:1.6;}
+
+/* ── OTHER SOURCES ── */
+.other-src-entry{display:grid;grid-template-columns:80px 1fr;gap:10px;margin-bottom:10px;align-items:center;}
+.other-src-count{background:var(--panel2);border:1px solid var(--border);border-radius:7px;padding:9px 12px;font-family:'IBM Plex Mono',monospace;font-size:15px;font-weight:600;color:var(--navy);}
+.other-src-desc{background:var(--panel2);border:1px solid var(--border);border-radius:7px;padding:9px 12px;font-size:14px;color:var(--navy);}
+.source-hint{font-family:'IBM Plex Mono',monospace;font-size:12px;margin-top:14px;padding:10px 14px;background:var(--panel2);border-radius:7px;border-left:3px solid var(--navy);color:var(--silver);}
+.source-hint span{color:var(--navy);font-weight:600;}
+
+/* ── CALL ENTRIES ── */
+.call-entry{background:var(--panel2);border:1px solid var(--border);border-radius:10px;padding:18px;margin-bottom:14px;}
+.call-entry:last-child{margin-bottom:0;}
+.call-entry-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+.call-num{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--navy3);letter-spacing:.1em;font-weight:600;}
+.call-field{margin-bottom:10px;}
+.call-field-label{font-size:11px;font-weight:600;color:var(--silver);letter-spacing:.04em;text-transform:uppercase;margin-bottom:5px;}
+.call-notes-display{background:var(--panel);border:1px solid var(--border);border-radius:7px;padding:10px 12px;font-size:13px;color:var(--navy3);line-height:1.7;}
+.outcome-chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:4px;}
+.outcome-chip{padding:7px 15px;border-radius:20px;border:1px solid var(--border2);font-size:12px;font-weight:500;color:var(--silver);background:var(--panel);}
+.outcome-chip.sel-green{background:rgba(22,163,74,.1);border-color:#16a34a;color:#15803d;font-weight:600;}
+.outcome-chip.sel-amber{background:rgba(217,119,6,.08);border-color:#d97706;color:#b45309;font-weight:600;}
+.outcome-chip.sel-red{background:rgba(220,38,38,.08);border-color:#dc2626;color:#b91c1c;font-weight:600;}
+.outcome-chip.sel-blue{background:rgba(37,99,235,.08);border-color:#2563eb;color:#1d4ed8;font-weight:600;}
+.outcome-chip.sel-navy{background:rgba(15,23,42,.08);border-color:var(--navy);color:var(--navy);font-weight:600;}
+.outcome-chip.sel-gray{background:rgba(100,116,139,.08);border-color:#64748b;color:#475569;font-weight:600;}
+
+/* ── TRACKER GRID ── */
+.tracker-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:14px;}
+.tracker-card{background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:13px 15px;}
+.tracker-title{font-size:12px;color:var(--silver);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;font-weight:600;}
+.tog-row{display:flex;gap:6px;}
+.tog{flex:1;padding:8px 4px;border-radius:6px;border:1px solid var(--border2);background:var(--panel2);color:var(--silver);font-size:12px;text-align:center;font-weight:500;}
+.tog.yes,.tog.good{background:rgba(22,163,74,.1);border-color:#16a34a;color:#15803d;font-weight:600;}
+.tog.no,.tog.bad{background:rgba(220,38,38,.08);border-color:#dc2626;color:#b91c1c;font-weight:600;}
+.tog.na{background:rgba(217,119,6,.08);border-color:#d97706;color:#b45309;font-weight:600;}
+
+/* ── SUBMIT (display only) ── */
+.submit-display{width:100%;padding:17px;background:var(--navy);border:none;border-radius:10px;color:#fff;font-weight:700;font-size:16px;letter-spacing:.05em;text-transform:uppercase;text-align:center;margin-top:28px;opacity:.5;cursor:default;}
+.success-card{background:var(--panel);border:2px solid var(--success);border-radius:12px;padding:36px;text-align:center;margin-top:20px;}
+.success-card .icon{font-size:40px;margin-bottom:14px;}
+.success-card h2{font-size:20px;margin-bottom:8px;color:var(--navy);}
+.success-card p{color:var(--silver);font-size:14px;}
+
+/* ── DASHBOARD PREVIEW SECTION ── */
+.dash-section{max-width:1100px;margin:0 auto;padding:0 20px 80px;}
+.dash-section-header{background:var(--navy);padding:28px 32px;margin-bottom:0;}
+.dash-section-header h2{font-family:'IBM Plex Mono',monospace;font-size:14px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.7);margin-bottom:6px;}
+.dash-section-header h3{font-size:22px;font-weight:700;color:#fff;}
+.dash-section-header p{font-size:14px;color:rgba(255,255,255,.5);margin-top:6px;}
+
+.dash-preview{background:var(--bg);padding:28px 32px;}
+
+/* Rep card preview */
+.rep-preview-card{background:var(--panel);border:1px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:0 2px 8px rgba(15,23,42,.06);margin-bottom:20px;}
+.rep-preview-header{padding:14px 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);background:var(--panel2);}
+.rep-preview-name{font-size:16px;font-weight:700;color:var(--navy);}
+.rep-preview-meta{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--silver);}
+.rep-status-badge{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:600;font-family:'IBM Plex Mono',monospace;color:var(--success);}
+.status-dot{width:7px;height:7px;border-radius:50%;background:var(--success);box-shadow:0 0 5px rgba(22,163,74,.4);}
+
+.rep-preview-body{display:grid;grid-template-columns:280px 1fr;}
+.rep-left{padding:16px 20px;border-right:1px solid var(--border);display:flex;flex-direction:column;gap:14px;}
+.rep-right{padding:16px 20px;overflow:hidden;}
+
+.preview-metric-row{display:flex;align-items:center;gap:8px;margin-bottom:5px;}
+.preview-metric-lbl{font-size:11px;color:var(--silver);width:88px;flex-shrink:0;}
+.preview-metric-track{flex:1;height:5px;background:var(--panel3);border-radius:3px;overflow:hidden;}
+.preview-metric-fill{height:100%;border-radius:3px;}
+.preview-metric-fill.hit{background:var(--success);}
+.preview-metric-fill.near{background:var(--amber);}
+.preview-metric-fill.low{background:var(--danger);}
+.preview-metric-nums{font-family:'IBM Plex Mono',monospace;font-size:11px;width:52px;text-align:right;flex-shrink:0;}
+.preview-metric-nums .v{color:var(--navy);font-weight:600;}
+.preview-metric-nums .t{color:var(--silver);}
+
+.preview-blocks{display:flex;gap:3px;margin-top:4px;}
+.preview-block-pip{flex:1;height:22px;border-radius:4px;display:grid;place-items:center;font-family:'IBM Plex Mono',monospace;font-size:8px;}
+.preview-block-pip.done{background:rgba(22,163,74,.1);border:1px solid rgba(22,163,74,.25);color:#15803d;}
+.preview-block-pip.miss{background:rgba(220,38,38,.07);border:1px solid rgba(220,38,38,.2);color:#b91c1c;}
+
+.preview-src-chips{display:flex;gap:4px;flex-wrap:wrap;margin-top:4px;}
+.preview-src-chip{background:var(--panel2);border:1px solid var(--border);border-radius:5px;padding:4px 8px;text-align:center;min-width:48px;}
+.preview-src-chip .sv{font-size:15px;font-weight:700;color:var(--navy);display:block;line-height:1.2;}
+.preview-src-chip .sl{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--silver);display:block;}
+
+.preview-other-chips{margin-top:8px;}
+.preview-other-title{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--silver);margin-bottom:5px;}
+.preview-other-chip{display:inline-flex;align-items:center;gap:5px;background:var(--panel);border:1px solid var(--border2);border-radius:4px;padding:3px 8px;margin:2px 2px 0 0;}
+.preview-other-chip .ov{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:700;color:var(--navy);}
+.preview-other-chip .ol{font-size:11px;color:var(--silver);}
+
+/* Call log in dashboard */
+.dash-call-title{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--navy3);padding-bottom:10px;border-bottom:1px solid var(--border);margin-bottom:12px;font-weight:600;}
+.dash-call-item{padding:12px 0;border-bottom:1px solid rgba(15,23,42,.05);}
+.dash-call-item:last-child{border-bottom:none;}
+.dash-call-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:6px;}
+.dash-call-name{font-size:13px;font-weight:600;color:var(--navy);}
+.dash-call-title-txt{font-weight:400;color:var(--silver);font-size:12px;}
+.dash-call-source{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--navy3);margin-top:2px;}
+.outcome-pill{padding:3px 10px;border-radius:10px;font-family:'IBM Plex Mono',monospace;font-size:11px;white-space:nowrap;flex-shrink:0;font-weight:600;}
+.op-green{background:rgba(22,163,74,.1);color:#15803d;border:1px solid rgba(22,163,74,.22);}
+.op-amber{background:rgba(217,119,6,.08);color:#b45309;border:1px solid rgba(217,119,6,.2);}
+.op-red{background:rgba(220,38,38,.07);color:#b91c1c;border:1px solid rgba(220,38,38,.18);}
+.op-blue{background:rgba(37,99,235,.08);color:#1d4ed8;border:1px solid rgba(37,99,235,.2);}
+.op-gray{background:rgba(100,116,139,.08);color:#475569;border:1px solid rgba(100,116,139,.2);}
+.dash-call-notes{font-size:12px;color:var(--navy3);line-height:1.65;background:var(--panel);border-radius:6px;padding:8px 10px;border:1px solid var(--border);margin-bottom:7px;}
+.dash-call-badges{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px;}
+.cbadge{padding:2px 8px;border-radius:4px;font-size:11px;font-family:'IBM Plex Mono',monospace;}
+.cbadge.yes,.cbadge.good{background:rgba(22,163,74,.1);color:#15803d;border:1px solid rgba(22,163,74,.2);}
+.cbadge.no,.cbadge.bad{background:rgba(220,38,38,.07);color:#b91c1c;border:1px solid rgba(220,38,38,.18);}
+.cbadge.na{background:rgba(217,119,6,.07);color:#b45309;border:1px solid rgba(217,119,6,.2);}
+.cbadge.neutral{background:var(--panel2);color:var(--silver);border:1px solid var(--border);}
+
+.section-divider{height:1px;background:var(--border);margin:32px 0;}
+
+.label-annotation{display:inline-block;background:rgba(217,119,6,.1);border:1px solid rgba(217,119,6,.3);color:var(--amber);font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;padding:2px 8px;border-radius:4px;letter-spacing:.06em;margin-bottom:8px;}
+
+.preview-sub-label{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--silver);margin-bottom:5px;font-weight:600;}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <div class="header-icon">CM</div>
+    <div>
+      <div class="header-title">Capital Markets Daily Tracker</div>
+      <div class="header-sub">Daily Excellence Protocol</div>
+    </div>
+  </div>
+  <div class="example-badge">FILLED EXAMPLE</div>
+</div>
+
+<div class="example-notice">
+  <div class="example-notice-icon">📋</div>
+  <div class="example-notice-text"><strong>This is a read-only example of a correctly filled submission.</strong> Every field, section, and call outcome shown below represents the standard. Scroll to the bottom to see how this submission appears in the manager dashboard.</div>
+</div>
+
+<div class="container">
+
+  <!-- SECTION 01 -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-label">01 — Identification</span>
+      <span class="section-badge">COMPLETE</span>
+    </div>
+    <div class="section-body">
+      <div class="grid-2">
+        <div class="field">
+          <label>Rep Name</label>
+          <div class="filled-select">Alex Rivera</div>
+        </div>
+        <div class="field">
+          <label>Log Date</label>
+          <div class="filled-date">Monday, May 4, 2026</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 02 -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-label">02 — Daily Metrics</span>
+      <span class="section-badge">COMPLETE</span>
+    </div>
+    <div class="section-body">
+      <div class="label-annotation">GOLD STANDARD TARGETS SHOWN</div>
+      <div class="grid-3">
+        <div class="field metric-wrap">
+          <label>Total Calls Made</label>
+          <span class="target">Target: 68</span>
+          <div class="filled-input hit">122</div>
+          <div class="metric-bar"><div class="metric-fill hit" style="width:100%"></div></div>
+        </div>
+        <div class="field metric-wrap">
+          <label>Broker Conversations</label>
+          <span class="target">Target: 12 by 11:30AM</span>
+          <div class="filled-input hit">12</div>
+          <div class="metric-bar"><div class="metric-fill hit" style="width:100%"></div></div>
+        </div>
+        <div class="field metric-wrap">
+          <label>LI Connections Sent</label>
+          <span class="target">Target: 30</span>
+          <div class="filled-input hit">35</div>
+          <div class="metric-bar"><div class="metric-fill hit" style="width:100%"></div></div>
+        </div>
+        <div class="field metric-wrap">
+          <label>Leads Added</label>
+          <span class="target">Target: 3</span>
+          <div class="filled-input hit">7</div>
+          <div class="metric-bar"><div class="metric-fill hit" style="width:100%"></div></div>
+        </div>
+        <div class="field metric-wrap">
+          <label>Presentations / Proposals</label>
+          <span class="target">Target: 12</span>
+          <div class="filled-input hit">12</div>
+          <div class="metric-bar"><div class="metric-fill hit" style="width:100%"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 03 -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-label">03 — Lead Sources</span>
+      <span class="section-badge">COMPLETE</span>
+    </div>
+    <div class="section-body">
+      <div class="label-annotation">WHERE TODAY'S LEADS CAME FROM</div>
+      <div class="grid-3">
+        <div class="field"><label>Legacy Database</label><div class="filled-input">0</div></div>
+        <div class="field"><label>LeadX</label><div class="filled-input">0</div></div>
+        <div class="field"><label>LI — Connection</label><div class="filled-input">5</div></div>
+        <div class="field"><label>LI — Message</label><div class="filled-input">2</div></div>
+        <div class="field"><label>LI — InMail</label><div class="filled-input">52</div></div>
+      </div>
+      <div style="margin-top:20px;border-top:1px solid var(--border);padding-top:16px;">
+        <div class="label-annotation">OTHER SOURCES — TRACK ALL ACTIVITY</div>
+        <div style="font-size:12px;color:var(--silver);margin-bottom:14px;">Add a separate entry for each type of activity not covered above. This is how the best performers track their full output.</div>
+        <div class="other-src-entry">
+          <div class="other-src-count">55</div>
+          <div class="other-src-desc">General Emails Sent</div>
+        </div>
+        <div class="other-src-entry">
+          <div class="other-src-count">2</div>
+          <div class="other-src-desc">LI InMail Responses Received</div>
+        </div>
+        <div class="other-src-entry">
+          <div class="other-src-count">6</div>
+          <div class="other-src-desc">Email Responses Received</div>
+        </div>
+        <div class="other-src-entry">
+          <div class="other-src-count">0</div>
+          <div class="other-src-desc">Set of Financials Received</div>
+        </div>
+        <div class="other-src-entry">
+          <div class="other-src-count">1</div>
+          <div class="other-src-desc">Video Conference Calls — Intro Call</div>
+        </div>
+        <div class="other-src-entry">
+          <div class="other-src-count">0</div>
+          <div class="other-src-desc">Video Conference Calls — Follow Up</div>
+        </div>
+      </div>
+      <div class="source-hint">Source total: <span>59</span> leads and activities tracked across all channels</div>
+    </div>
+  </div>
+
+  <!-- SECTION 04 -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-label">04 — Time Block Compliance</span>
+      <span class="section-badge">ALL 6 COMPLETED</span>
+    </div>
+    <div class="section-body">
+      <div class="label-annotation">WRITE YOUR ACTIVITY BREAKDOWN IN EACH NOTES FIELD — NOT JUST A CHECKMARK</div>
+      <div class="block-row">
+        <div class="block-check-display">✓</div>
+        <div class="block-info"><div class="block-time">7:00 – 7:30</div><div class="block-desc">5 calls · Priority 0</div></div>
+        <div class="block-note-display">1 Presentation(s) | 18 Calls Made | 4 Emails Sent | 5 LI InMail Messages Sent | 11 LI Connections sent | 0 Leads Created Into Salesforce</div>
+      </div>
+      <div class="block-row">
+        <div class="block-check-display">✓</div>
+        <div class="block-info"><div class="block-time">7:30 – 9:00</div><div class="block-desc">4 calls · New prospecting</div></div>
+        <div class="block-note-display">2 Presentation(s) | 31 Calls Made | 12 Emails Sent | 12 LI InMail Messages Sent | 24 LI Connections sent | 0 Leads Created Into Salesforce</div>
+      </div>
+      <div class="block-row">
+        <div class="block-check-display">✓</div>
+        <div class="block-info"><div class="block-time">9:00 – 11:30</div><div class="block-desc">3 calls · Re-prospect + underwriter</div></div>
+        <div class="block-note-display">3 Presentation(s) | 39 Calls Made | 26 Emails Sent | 24 LI InMail Messages Sent | 0 LI Connections sent | 0 Leads Created Into Salesforce</div>
+      </div>
+      <div class="block-row">
+        <div class="block-check-display">✓</div>
+        <div class="block-info"><div class="block-time">11:30 – 12:00</div><div class="block-desc">Wild card · Email · LI</div></div>
+        <div class="block-note-display">2 Presentation(s) | 10 Calls Made | 6 Emails Sent | 4 LI InMail Messages Sent | 0 LI Connections sent | 0 Leads Created Into Salesforce</div>
+      </div>
+      <div class="block-row">
+        <div class="block-check-display">✓</div>
+        <div class="block-info"><div class="block-time">1:00 – 3:00</div><div class="block-desc">2 calls · Proposals</div></div>
+        <div class="block-note-display">5 Presentation(s) | 22 Calls Made | 8 Emails Sent | 5 LI InMail Messages Sent | 0 LI Connections sent | 5 Leads Created Into Salesforce</div>
+      </div>
+      <div class="block-row">
+        <div class="block-check-display">✓</div>
+        <div class="block-info"><div class="block-time">3:00 – 4:00</div><div class="block-desc">Top 5 priorities · Verify SF</div></div>
+        <div class="block-note-display">2 Emails Sent | 2 LI InMail Messages Sent | 2 Leads Created Into Salesforce</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 05 -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-label">05 — Pipeline Activity</span>
+      <span class="section-badge">COMPLETE</span>
+    </div>
+    <div class="section-body">
+      <div class="grid-2">
+        <div class="field"><label>Follow-Up Calls Completed</label><div class="filled-input">8</div></div>
+        <div class="field"><label>Proposals Created</label><div class="filled-input">0</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 06 -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-label">06 — General Notes</span>
+      <span class="section-badge">COMPLETE</span>
+    </div>
+    <div class="section-body">
+      <div class="label-annotation">USE FOR BLOCKERS, WINS, AND ANYTHING THAT AFFECTED OUTPUT</div>
+      <div class="filled-text">Strong morning session. Three Booked Follow-Ups before 10AM. Ran out of LinkedIn connection requests at 2PM — will resume tomorrow.</div>
+    </div>
+  </div>
+
+  <!-- SECTION 07 -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-label">07 — Call Log</span>
+      <span class="section-badge">14 CALLS LOGGED</span>
+    </div>
+    <div class="section-body">
+      <div class="label-annotation">LOG EVERY MEANINGFUL CALL IMMEDIATELY AFTER HANGING UP</div>
+
+      <!-- CALL 01 -->
+      <div class="call-entry">
+        <div class="call-entry-head"><span class="call-num">CALL 01</span></div>
+        <div class="grid-3" style="margin-bottom:14px;">
+          <div class="call-field"><div class="call-field-label">Contact Name</div><div class="filled-text">Brian Castellano</div></div>
+          <div class="call-field"><div class="call-field-label">Title</div><div class="filled-text">President</div></div>
+          <div class="call-field"><div class="call-field-label">Lead Source</div><div class="filled-select">LeadX</div></div>
+        </div>
+        <div class="call-field"><div class="call-field-label">Call Notes</div>
+          <div class="call-notes-display">Follow Up Call: Called 512-884-3190 — SW Brian Castellano — She is OOO for her birthday — Stated to circle back tomorrow — Follow up then</div>
+        </div>
+        <div style="margin-bottom:14px;">
+          <div class="call-field-label" style="margin-bottom:8px;">Call Outcome</div>
+          <div class="outcome-chips">
+            <div class="outcome-chip sel-green">Booked Follow-Up</div>
+            <div class="outcome-chip">Left Voicemail</div>
+            <div class="outcome-chip">Not Interested</div>
+            <div class="outcome-chip">Moved to Active</div>
+            <div class="outcome-chip">Proposal Sent</div>
+            <div class="outcome-chip">Other</div>
+          </div>
+        </div>
+        <div class="tracker-grid">
+          <div class="tracker-card"><div class="tracker-title">Objection Received?</div><div class="tog-row"><div class="tog no">No</div><div class="tog">Yes</div></div></div>
+          <div class="tracker-card"><div class="tracker-title">Financials Received?</div><div class="tog-row"><div class="tog na">N/A</div><div class="tog">Yes</div><div class="tog">No</div></div></div>
+          <div class="tracker-card"><div class="tracker-title">Financials Quality?</div><div class="tog-row"><div class="tog na">N/A</div><div class="tog">Good</div><div class="tog">Bad</div></div></div>
+        </div>
+      </div>
+
+      <!-- CALL 02 -->
+      <div class="call-entry">
+        <div class="call-entry-head"><span class="call-num">CALL 02</span></div>
+        <div class="grid-3" style="margin-bottom:14px;">
+          <div class="call-field"><div class="call-field-label">Contact Name</div><div class="filled-text">Melissa Ortega</div></div>
+          <div class="call-field"><div class="call-field-label">Title</div><div class="filled-text">Senior President, Commercial Lending</div></div>
+          <div class="call-field"><div class="call-field-label">Lead Source</div><div class="filled-select">LI — Connection</div></div>
+        </div>
+        <div class="call-field"><div class="call-field-label">Call Notes</div>
+          <div class="call-notes-display">Video Conference Call — Intro Call — SW Melissa Ortega — Predominantly a USDA Shop — Uses multi plans via the USDA — Does a little bridge lending — Similar to 7a — $5 MM to $25 MM range — Hospitality / Manufacturing / Etc — Always have to have collateral — 25% Equity if start up — Does not do greenhouses — 50k and less in population, cannot be urban — Can do food processing — Does not solely do bridge — Has C-Pace affiliate — Does EB5 short term debt — None of the following: Casino/Greenhouse/Data Centers/Bitcoin/Solar/Wind — Tied to 5 year treasuries + 400 BPS — Does a ton of Hotels — 25-30 year terms — NGO Currently</div>
+        </div>
+        <div style="margin-bottom:14px;">
+          <div class="call-field-label" style="margin-bottom:8px;">Call Outcome</div>
+          <div class="outcome-chips">
+            <div class="outcome-chip sel-green">Booked Follow-Up</div>
+            <div class="outcome-chip">Left Voicemail</div>
+            <div class="outcome-chip">Not Interested</div>
+            <div class="outcome-chip">Moved to Active</div>
+            <div class="outcome-chip">Proposal Sent</div>
+            <div class="outcome-chip">Other</div>
+          </div>
+        </div>
+        <div class="tracker-grid">
+          <div class="tracker-card"><div class="tracker-title">Objection Received?</div><div class="tog-row"><div class="tog no">No</div><div class="tog">Yes</div></div></div>
+          <div class="tracker-card"><div class="tracker-title">Financials Received?</div><div class="tog-row"><div class="tog na">N/A</div><div class="tog">Yes</div><div class="tog">No</div></div></div>
+          <div class="tracker-card"><div class="tracker-title">Financials Quality?</div><div class="tog-row"><div class="tog na">N/A</div><div class="tog">Good</div><div class="tog">Bad</div></div></div>
+        </div>
+      </div>
+
+      <!-- CALL 03 -->
+      <div class="call-entry">
+        <div class="call-entry-head"><span class="call-num">CALL 03</span></div>
+        <div class="grid-3" style="margin-bottom:14px;">
+          <div class="call-field"><div class="call-field-label">Contact Name</div><div class="filled-text">Tom Garrett</div></div>
+          <div class="call-field"><div class="call-field-label">Title</div><div class="filled-text">Managing Director</div></div>
+          <div class="call-field"><div class="call-field-label">Lead Source</div><div class="filled-select">LI — Connection</div></div>
+        </div>
+        <div class="call-field"><div class="call-field-label">Call Notes</div>
+          <div class="call-notes-display">Into Call — Called 704-229-5561 — SW Tom Garrett — They work with vendors across the country — Have a syndication desk to connect with — Reach out to them — Unqualified — Referred to Vicki Shimkis — Head of the brokerage team</div>
+        </div>
+        <div style="margin-bottom:14px;">
+          <div class="call-field-label" style="margin-bottom:8px;">Call Outcome</div>
+          <div class="outcome-chips">
+            <div class="outcome-chip">Booked Follow-Up</div>
+            <div class="outcome-chip">Left Voicemail</div>
+            <div class="outcome-chip sel-red">Not Interested</div>
+            <div class="outcome-chip">Moved to Active</div>
+            <div class="outcome-chip">Proposal Sent</div>
+            <div class="outcome-chip">Other</div>
+          </div>
+        </div>
+        <div class="tracker-grid">
+          <div class="tracker-card"><div class="tracker-title">Objection Received?</div><div class="tog-row"><div class="tog no">No</div><div class="tog">Yes</div></div></div>
+          <div class="tracker-card"><div class="tracker-title">Financials Received?</div><div class="tog-row"><div class="tog na">N/A</div><div class="tog">Yes</div><div class="tog">No</div></div></div>
+          <div class="tracker-card"><div class="tracker-title">Financials Quality?</div><div class="tog-row"><div class="tog na">N/A</div><div class="tog">Good</div><div class="tog">Bad</div></div></div>
+        </div>
+      </div>
+
+      <!-- CALL 04 — showing financials received -->
+      <div class="call-entry">
+        <div class="call-entry-head"><span class="call-num">CALL 04</span></div>
+        <div class="grid-3" style="margin-bottom:14px;">
+          <div class="call-field"><div class="call-field-label">Contact Name</div><div class="filled-text">Sandra Weston</div></div>
+          <div class="call-field"><div class="call-field-label">Title</div><div class="filled-text">Partner</div></div>
+          <div class="call-field"><div class="call-field-label">Lead Source</div><div class="filled-select">LeadX</div></div>
+        </div>
+        <div class="call-field"><div class="call-field-label">Call Notes</div>
+          <div class="call-notes-display">Follow Up Call: Called 615-443-9207 — SW Sandra Weston — NGO Currently — $1 MM to $1.5 MM equipment financing — Term 2-3 Years — Equipment Ovens, Slicers — Food Processing — Location Anglewood New Jersey — Has Internals for 2025 and Reviews for 2024 and 2023 — Still NAGF — Will be used for referrals</div>
+        </div>
+        <div style="margin-bottom:14px;">
+          <div class="call-field-label" style="margin-bottom:8px;">Call Outcome</div>
+          <div class="outcome-chips">
+            <div class="outcome-chip">Booked Follow-Up</div>
+            <div class="outcome-chip">Left Voicemail</div>
+            <div class="outcome-chip">Not Interested</div>
+            <div class="outcome-chip">Moved to Active</div>
+            <div class="outcome-chip">Proposal Sent</div>
+            <div class="outcome-chip sel-gray">Other — Referral Transaction Discussion</div>
+          </div>
+        </div>
+        <div class="call-field" style="margin-bottom:14px;"><div class="call-field-label">Objection Detail</div><div class="filled-text">FINs are internals only — Need reviewed statements to move forward</div></div>
+        <div class="tracker-grid">
+          <div class="tracker-card"><div class="tracker-title">Objection Received?</div><div class="tog-row"><div class="tog no">No</div><div class="tog">Yes</div></div></div>
+          <div class="tracker-card"><div class="tracker-title">Financials Received?</div><div class="tog-row"><div class="tog">N/A</div><div class="tog">Yes</div><div class="tog no">No</div></div></div>
+          <div class="tracker-card"><div class="tracker-title">Financials Quality?</div><div class="tog-row"><div class="tog na">N/A</div><div class="tog">Good</div><div class="tog">Bad</div></div></div>
+        </div>
+      </div>
+
+      <!-- CALL 05 — showing objection + financials -->
+      <div class="call-entry">
+        <div class="call-entry-head"><span class="call-num">CALL 05</span></div>
+        <div class="grid-3" style="margin-bottom:14px;">
+          <div class="call-field"><div class="call-field-label">Contact Name</div><div class="filled-text">Kevin Marsh</div></div>
+          <div class="call-field"><div class="call-field-label">Title</div><div class="filled-text">President</div></div>
+          <div class="call-field"><div class="call-field-label">Lead Source</div><div class="filled-select">LeadX</div></div>
+        </div>
+        <div class="call-field"><div class="call-field-label">Call Notes</div>
+          <div class="call-notes-display">Follow Up Call: Called 414-552-7736 — SW Kevin Marsh — Discussed Spotter Leasing transaction — Gave update — Asked about Gurman Trucking — Wanted to move forward without the review for trucks — 36 Month Terms — Will review — Financials sent over: Reviewed and Compiled — Requesting additional reviews from client to move forward — Will follow up with IS and BS</div>
+        </div>
+        <div style="margin-bottom:14px;">
+          <div class="call-field-label" style="margin-bottom:8px;">Call Outcome</div>
+          <div class="outcome-chips">
+            <div class="outcome-chip sel-green">Booked Follow-Up</div>
+            <div class="outcome-chip">Left Voicemail</div>
+            <div class="outcome-chip">Not Interested</div>
+            <div class="outcome-chip">Moved to Active</div>
+            <div class="outcome-chip">Proposal Sent</div>
+            <div class="outcome-chip">Other</div>
+          </div>
+        </div>
+        <div class="tracker-grid">
+          <div class="tracker-card"><div class="tracker-title">Objection Received?</div><div class="tog-row"><div class="tog no">No</div><div class="tog">Yes</div></div></div>
+          <div class="tracker-card"><div class="tracker-title">Financials Received?</div><div class="tog-row"><div class="tog">N/A</div><div class="tog yes">Yes</div><div class="tog">No</div></div></div>
+          <div class="tracker-card"><div class="tracker-title">Financials Quality?</div><div class="tog-row"><div class="tog">N/A</div><div class="tog good">Good</div><div class="tog">Bad</div></div></div>
+        </div>
+      </div>
+
+      <div style="padding:16px;background:var(--panel2);border-radius:8px;border:1px dashed var(--border2);text-align:center;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--silver);letter-spacing:.06em;">
+        + 9 MORE CALLS LOGGED THIS DAY — TOTAL: 14 CALLS
+      </div>
+    </div>
+  </div>
+
+  <!-- SUCCESS STATE -->
+  <div class="success-card">
+    <div class="icon">✅</div>
+    <h2>Daily log submitted</h2>
+    <p>Alex Rivera — Monday, May 4, 2026 — submitted at 3:45 PM</p>
+  </div>
+
+</div>
+
+<!-- DASHBOARD PREVIEW -->
+<div class="dash-section-header">
+  <h2>Manager Dashboard View</h2>
+  <h3>How this submission appears to Troy, Matt, and David</h3>
+  <p>After a rep submits, this is exactly what managers see in their dashboard for that rep on that date.</p>
+</div>
+
+<div class="dash-preview">
+  <div class="rep-preview-card" style="max-width:1100px;margin:0 auto;">
+    <div class="rep-preview-header">
+      <div>
+        <div class="rep-preview-name">Alex Rivera</div>
+        <div class="rep-preview-meta">Submitted 3:45 PM &nbsp;·&nbsp; 14 calls logged</div>
+      </div>
+      <div class="rep-status-badge"><div class="status-dot"></div>Submitted</div>
+    </div>
+    <div class="rep-preview-body">
+      <div class="rep-left">
+
+        <div>
+          <div class="preview-sub-label">Daily Metrics</div>
+          <div class="preview-metric-row">
+            <div class="preview-metric-lbl">Calls</div>
+            <div class="preview-metric-track"><div class="preview-metric-fill hit" style="width:100%"></div></div>
+            <div class="preview-metric-nums"><span class="v">122</span><span class="t">/68</span></div>
+          </div>
+          <div class="preview-metric-row">
+            <div class="preview-metric-lbl">Broker</div>
+            <div class="preview-metric-track"><div class="preview-metric-fill hit" style="width:100%"></div></div>
+            <div class="preview-metric-nums"><span class="v">12</span><span class="t">/12</span></div>
+          </div>
+          <div class="preview-metric-row">
+            <div class="preview-metric-lbl">LI Conn</div>
+            <div class="preview-metric-track"><div class="preview-metric-fill hit" style="width:100%"></div></div>
+            <div class="preview-metric-nums"><span class="v">35</span><span class="t">/30</span></div>
+          </div>
+          <div class="preview-metric-row">
+            <div class="preview-metric-lbl">Leads</div>
+            <div class="preview-metric-track"><div class="preview-metric-fill hit" style="width:100%"></div></div>
+            <div class="preview-metric-nums"><span class="v">7</span><span class="t">/3</span></div>
+          </div>
+          <div class="preview-metric-row">
+            <div class="preview-metric-lbl">Present.</div>
+            <div class="preview-metric-track"><div class="preview-metric-fill hit" style="width:100%"></div></div>
+            <div class="preview-metric-nums"><span class="v">12</span><span class="t">/12</span></div>
+          </div>
+        </div>
+
+        <div>
+          <div class="preview-sub-label">Time Blocks</div>
+          <div class="preview-blocks">
+            <div class="preview-block-pip done">7-7:30</div>
+            <div class="preview-block-pip done">7:30-9</div>
+            <div class="preview-block-pip done">9-11:30</div>
+            <div class="preview-block-pip done">11:30-12</div>
+            <div class="preview-block-pip done">1-3</div>
+            <div class="preview-block-pip done">3-4</div>
+          </div>
+        </div>
+
+        <div>
+          <div class="preview-sub-label">Lead Sources</div>
+          <div class="preview-src-chips">
+            <div class="preview-src-chip"><span class="sv">0</span><span class="sl">Legacy</span></div>
+            <div class="preview-src-chip"><span class="sv">0</span><span class="sl">LeadX</span></div>
+            <div class="preview-src-chip"><span class="sv">5</span><span class="sl">LI Con</span></div>
+            <div class="preview-src-chip"><span class="sv">2</span><span class="sl">LI Msg</span></div>
+            <div class="preview-src-chip"><span class="sv">52</span><span class="sl">InMail</span></div>
+          </div>
+          <div class="preview-other-chips">
+            <div class="preview-other-title">Other Activity</div>
+            <div class="preview-other-chip"><span class="ov">55</span><span class="ol">General Emails Sent</span></div>
+            <div class="preview-other-chip"><span class="ov">2</span><span class="ol">LI InMail Responses</span></div>
+            <div class="preview-other-chip"><span class="ov">6</span><span class="ol">Email Responses</span></div>
+            <div class="preview-other-chip"><span class="ov">1</span><span class="ol">Video Calls — Intro</span></div>
+          </div>
+        </div>
+
+        <div>
+          <div class="preview-sub-label">General Notes</div>
+          <div style="font-size:12px;color:var(--navy3);padding:9px 12px;background:var(--panel2);border-radius:6px;border-left:3px solid var(--navy);line-height:1.5;">Strong morning session. Ran out of LinkedIn connection requests at 2PM.</div>
+        </div>
+
+        <div>
+          <div class="preview-sub-label">Pipeline</div>
+          <div style="display:flex;gap:8px;">
+            <div style="flex:1;background:var(--panel2);border-radius:7px;padding:8px 10px;border:1px solid var(--border);text-align:center;"><div style="font-size:18px;font-weight:700;color:var(--navy);font-family:'IBM Plex Mono',monospace;">8</div><div style="font-size:9px;color:var(--silver);text-transform:uppercase;letter-spacing:.05em;margin-top:2px;">Follow-Ups</div></div>
+            <div style="flex:1;background:var(--panel2);border-radius:7px;padding:8px 10px;border:1px solid var(--border);text-align:center;"><div style="font-size:18px;font-weight:700;color:var(--navy);font-family:'IBM Plex Mono',monospace;">0</div><div style="font-size:9px;color:var(--silver);text-transform:uppercase;letter-spacing:.05em;margin-top:2px;">Proposals</div></div>
+          </div>
+        </div>
+
+      </div>
+      <div class="rep-right">
+        <div class="dash-call-title">Call Log &nbsp;·&nbsp; 14 calls logged</div>
+
+        <div class="dash-call-item">
+          <div class="dash-call-top">
+            <div>
+              <div class="dash-call-name">Brian Castellano <span class="dash-call-title-txt">· President</span></div>
+              <div class="dash-call-source">LeadX</div>
+            </div>
+            <div class="outcome-pill op-green">Booked Follow-Up</div>
+          </div>
+          <div class="dash-call-notes">Follow Up Call: Called 512-884-3190 — SW Brian Castellano — She is OOO for her birthday — Stated to circle back tomorrow — Follow up then</div>
+          <div class="dash-call-badges"><span class="cbadge no">Obj: no</span><span class="cbadge na">Fin: N/A</span></div>
+        </div>
+
+        <div class="dash-call-item">
+          <div class="dash-call-top">
+            <div>
+              <div class="dash-call-name">Melissa Ortega <span class="dash-call-title-txt">· VP, USDA &amp; Bank Relationships</span></div>
+              <div class="dash-call-source">LI — Connection</div>
+            </div>
+            <div class="outcome-pill op-green">Booked Follow-Up</div>
+          </div>
+          <div class="dash-call-notes">Video Conference Call — Intro Call — SW Melissa Ortega — Predominantly a USDA Shop — $5 MM to $25 MM range — Hospitality / Manufacturing — Always have to have collateral — 25% Equity if start up — Does not do greenhouses — Tied to 5 year treasuries + 400 BPS — Does a ton of Hotels — 25-30 year terms — NGO Currently</div>
+          <div class="dash-call-badges"><span class="cbadge no">Obj: no</span><span class="cbadge na">Fin: N/A</span></div>
+        </div>
+
+        <div class="dash-call-item">
+          <div class="dash-call-top">
+            <div>
+              <div class="dash-call-name">Tom Garrett <span class="dash-call-title-txt">· Managing Director</span></div>
+              <div class="dash-call-source">LI — Connection</div>
+            </div>
+            <div class="outcome-pill op-red">Not Interested</div>
+          </div>
+          <div class="dash-call-notes">Intro Call — Called 704-229-5561 — SW Tom Garrett — They work with vendors across the country — Have a syndication desk — Unqualified — Referred to Vicki Shimkis — Head of the brokerage team</div>
+          <div class="dash-call-badges"><span class="cbadge no">Obj: no</span><span class="cbadge na">Fin: N/A</span></div>
+        </div>
+
+        <div class="dash-call-item">
+          <div class="dash-call-top">
+            <div>
+              <div class="dash-call-name">Sandra Weston <span class="dash-call-title-txt">· Partner</span></div>
+              <div class="dash-call-source">LeadX</div>
+            </div>
+            <div class="outcome-pill op-gray">Other: Referral Deal</div>
+          </div>
+          <div class="dash-call-notes">Follow Up Call: Called 615-443-9207 — SW Sandra Weston — NGO Currently — $1 MM to $1.5 MM equipment financing — Food Processing — Anglewood NJ — Has Internals 2025 and Reviews 2024/2023 — Still NAGF — Will be used for referrals</div>
+          <div class="dash-call-badges"><span class="cbadge no">Obj: no</span><span class="cbadge no">Fin: no</span></div>
+        </div>
+
+        <div class="dash-call-item">
+          <div class="dash-call-top">
+            <div>
+              <div class="dash-call-name">Kevin Marsh <span class="dash-call-title-txt">· President</span></div>
+              <div class="dash-call-source">LeadX</div>
+            </div>
+            <div class="outcome-pill op-green">Booked Follow-Up</div>
+          </div>
+          <div class="dash-call-notes">Follow Up Call: Called 414-552-7736 — SW Kevin Marsh — Discussed Spotter Leasing transaction — Gurman Trucking update — 36 Month Terms — Will review — Reviewed and Compiled financials sent — Requesting additional reviews to move forward</div>
+          <div class="dash-call-badges"><span class="cbadge no">Obj: no</span><span class="cbadge yes">Fin: yes</span><span class="cbadge good">Quality: good</span></div>
+        </div>
+
+        <div style="padding:14px;background:var(--panel2);border-radius:7px;border:1px dashed var(--border2);text-align:center;font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--silver);letter-spacing:.06em;margin-top:4px;">
+          + 9 MORE CALLS ON THIS DAY — ALL LOGGED WITH FULL DETAIL
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div style="background:var(--navy);padding:24px 60px;text-align:center;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;color:rgba(255,255,255,.3);text-transform:uppercase;">
+  VFI Capital Markets &nbsp;·&nbsp; Daily Tracker Filled Example &nbsp;·&nbsp; This is what a complete submission looks like
+</div>
+
+</body>
+</html>
