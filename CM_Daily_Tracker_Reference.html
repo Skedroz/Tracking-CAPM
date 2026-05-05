@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Capital Markets Daily Tracker — Field Reference</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0a1628;
+  --navy2: #152642;
+  --navy3: #1e3a5f;
+  --gold: #c9a84c;
+  --gold-light: #e8c97a;
+  --cream: #f7f4ef;
+  --cream2: #ede9e0;
+  --cream3: #ddd8cc;
+  --text: #1a1a2e;
+  --muted: #7a7a8a;
+  --success: #1a7a4a;
+  --success-bg: #e8f5ee;
+  --amber: #9a5f00;
+  --amber-bg: #fef3e0;
+  --red: #8b1a1a;
+  --red-bg: #fde8e8;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--cream);
+  color: var(--text);
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+/* ── HEADER ── */
+.site-header {
+  background: var(--navy);
+  padding: 48px 60px 40px;
+  position: relative;
+  overflow: hidden;
+}
+.site-header::before {
+  content: '';
+  position: absolute;
+  top: -60px; right: -60px;
+  width: 320px; height: 320px;
+  border: 1px solid rgba(201,168,76,.12);
+  border-radius: 50%;
+}
+.site-header::after {
+  content: '';
+  position: absolute;
+  top: 20px; right: 80px;
+  width: 180px; height: 180px;
+  border: 1px solid rgba(201,168,76,.08);
+  border-radius: 50%;
+}
+.header-eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 14px;
+}
+.header-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 42px;
+  font-weight: 800;
+  color: #fff;
+  line-height: 1.1;
+  max-width: 600px;
+  margin-bottom: 12px;
+}
+.header-sub {
+  font-size: 16px;
+  color: rgba(255,255,255,.55);
+  max-width: 500px;
+  font-weight: 300;
+  line-height: 1.6;
+}
+.header-rule {
+  width: 48px;
+  height: 3px;
+  background: var(--gold);
+  margin: 24px 0 0;
+}
+
+/* ── NAV TABS ── */
+.sticky-nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--navy2);
+  border-bottom: 1px solid rgba(255,255,255,.06);
+  display: flex;
+  gap: 0;
+  padding: 0 60px;
+  overflow-x: auto;
+}
+.sticky-nav::-webkit-scrollbar { display: none; }
+.nav-item {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.45);
+  padding: 16px 20px;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+  transition: all .2s;
+  text-decoration: none;
+  display: block;
+}
+.nav-item:hover { color: rgba(255,255,255,.8); }
+.nav-item.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+/* ── HOW TO USE BANNER ── */
+.how-banner {
+  background: var(--navy3);
+  padding: 28px 60px;
+  display: flex;
+  gap: 48px;
+  flex-wrap: wrap;
+}
+.how-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  flex: 1;
+  min-width: 220px;
+}
+.how-num {
+  font-family: 'Syne', sans-serif;
+  font-size: 32px;
+  font-weight: 800;
+  color: var(--gold);
+  line-height: 1;
+  flex-shrink: 0;
+  margin-top: -2px;
+}
+.how-text strong {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 3px;
+}
+.how-text span {
+  font-size: 13px;
+  color: rgba(255,255,255,.5);
+  font-weight: 300;
+}
+
+/* ── MAIN ── */
+.main { max-width: 1160px; margin: 0 auto; padding: 56px 60px 80px; }
+@media(max-width:768px){ .main { padding: 32px 24px 60px; } .site-header { padding: 36px 24px 32px; } .sticky-nav { padding: 0 24px; } .how-banner { padding: 24px; gap: 28px; } }
+
+/* ── SECTION ── */
+.section { margin-bottom: 72px; }
+.section-header {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid var(--navy);
+}
+.section-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: .14em;
+  color: var(--gold);
+  background: var(--navy);
+  padding: 4px 10px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+.section-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--navy);
+}
+.section-desc {
+  font-size: 14px;
+  color: var(--muted);
+  font-weight: 300;
+  margin-bottom: 24px;
+  padding: 14px 18px;
+  background: var(--cream2);
+  border-left: 3px solid var(--navy3);
+  border-radius: 0 6px 6px 0;
+  line-height: 1.7;
+}
+
+/* ── TERM TABLE ── */
+.term-table { width: 100%; border-collapse: collapse; }
+.term-table thead tr {
+  background: var(--navy);
+}
+.term-table thead th {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.6);
+  padding: 10px 16px;
+  text-align: left;
+  font-weight: 500;
+}
+.term-table tbody tr {
+  border-bottom: 1px solid var(--cream3);
+  transition: background .12s;
+}
+.term-table tbody tr:last-child { border-bottom: none; }
+.term-table tbody tr:hover { background: rgba(201,168,76,.04); }
+.term-table tbody tr.alt { background: rgba(10,22,40,.025); }
+.term-table tbody tr.alt:hover { background: rgba(201,168,76,.06); }
+.term-table td { padding: 14px 16px; vertical-align: top; }
+.td-term {
+  width: 180px;
+  font-family: 'Syne', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--navy);
+}
+.td-target {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  color: var(--success);
+  font-weight: 500;
+  margin-top: 4px;
+}
+.td-def {
+  font-size: 14px;
+  color: var(--text);
+  font-weight: 300;
+  line-height: 1.7;
+}
+.td-def strong { font-weight: 600; color: var(--navy); }
+.td-example {
+  width: 260px;
+  font-size: 13px;
+  color: var(--muted);
+  font-style: italic;
+  font-weight: 300;
+  line-height: 1.6;
+  background: var(--cream2);
+  border-radius: 6px;
+  padding: 10px 12px !important;
+}
+
+/* ── OUTCOME CARDS ── */
+.outcome-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-top: 4px;
+}
+@media(max-width:860px){ .outcome-grid { grid-template-columns: 1fr 1fr; } }
+@media(max-width:540px){ .outcome-grid { grid-template-columns: 1fr; } }
+.outcome-card {
+  border-radius: 10px;
+  padding: 16px 18px;
+  border: 1px solid var(--cream3);
+  background: #fff;
+}
+.outcome-card-label {
+  font-family: 'Syne', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 7px;
+}
+.outcome-card-def {
+  font-size: 13px;
+  color: var(--muted);
+  font-weight: 300;
+  line-height: 1.6;
+  margin-bottom: 8px;
+}
+.outcome-card-ex {
+  font-size: 12px;
+  font-style: italic;
+  color: var(--muted);
+  padding: 7px 10px;
+  background: var(--cream2);
+  border-radius: 5px;
+  line-height: 1.5;
+}
+.oc-green { border-top: 3px solid #16a34a; }
+.oc-green .outcome-card-label { color: #15803d; }
+.oc-amber { border-top: 3px solid #d97706; }
+.oc-amber .outcome-card-label { color: #b45309; }
+.oc-red { border-top: 3px solid #dc2626; }
+.oc-red .outcome-card-label { color: #b91c1c; }
+.oc-blue { border-top: 3px solid #2563eb; }
+.oc-blue .outcome-card-label { color: #1d4ed8; }
+.oc-navy { border-top: 3px solid #0f172a; }
+.oc-navy .outcome-card-label { color: #0f172a; }
+.oc-gray { border-top: 3px solid #64748b; }
+.oc-gray .outcome-card-label { color: #475569; }
+
+/* ── CALLOUT BOXES ── */
+.callout {
+  border-radius: 8px;
+  padding: 16px 20px;
+  margin: 20px 0;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.callout-standard {
+  background: var(--navy);
+  color: rgba(255,255,255,.85);
+  font-weight: 300;
+}
+.callout-standard strong { color: var(--gold); font-weight: 600; }
+.callout-tip {
+  background: var(--cream2);
+  border-left: 4px solid var(--gold);
+  color: var(--text);
+}
+.callout-tip strong { font-weight: 600; color: var(--navy); }
+
+/* ── BLOCK GRID ── */
+.block-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+@media(max-width:700px){ .block-grid { grid-template-columns: 1fr 1fr; } }
+@media(max-width:480px){ .block-grid { grid-template-columns: 1fr; } }
+.block-card {
+  background: #fff;
+  border: 1px solid var(--cream3);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.block-card-head {
+  background: var(--navy);
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.block-card-time {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--gold);
+}
+.block-card-tag {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: .06em;
+  color: rgba(255,255,255,.4);
+  text-transform: uppercase;
+}
+.block-card-body { padding: 14px; }
+.block-card-focus {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--navy);
+  margin-bottom: 7px;
+}
+.block-card-desc {
+  font-size: 13px;
+  color: var(--muted);
+  font-weight: 300;
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
+.block-card-note {
+  font-size: 12px;
+  font-style: italic;
+  color: var(--navy3);
+  background: var(--cream2);
+  border-radius: 5px;
+  padding: 7px 10px;
+  line-height: 1.5;
+}
+.block-card-note strong { font-style: normal; font-weight: 600; display: block; margin-bottom: 3px; color: var(--navy); }
+
+/* ── STANDARD SECTION ── */
+.the-standard {
+  background: var(--navy);
+  border-radius: 12px;
+  padding: 36px 44px;
+  margin-top: 56px;
+  position: relative;
+  overflow: hidden;
+}
+.the-standard::before {
+  content: '';
+  position: absolute;
+  bottom: -40px; right: -40px;
+  width: 200px; height: 200px;
+  border: 1px solid rgba(201,168,76,.1);
+  border-radius: 50%;
+}
+.ts-eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 12px;
+}
+.ts-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 28px;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 16px;
+}
+.ts-body {
+  font-size: 15px;
+  color: rgba(255,255,255,.65);
+  font-weight: 300;
+  max-width: 700px;
+  line-height: 1.75;
+  margin-bottom: 12px;
+}
+.ts-highlight {
+  font-size: 15px;
+  font-weight: 600;
+  color: #fff;
+  max-width: 700px;
+  line-height: 1.75;
+}
+
+/* ── OTHER SOURCES TIP ── */
+.other-src-box {
+  background: #fff;
+  border: 1px solid var(--cream3);
+  border-radius: 10px;
+  padding: 20px 22px;
+  margin-top: 20px;
+}
+.other-src-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 10px;
+}
+.other-src-chips {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+.other-src-chip {
+  background: var(--cream2);
+  border: 1px solid var(--cream3);
+  border-radius: 20px;
+  padding: 4px 12px;
+  font-size: 12px;
+  font-family: 'DM Mono', monospace;
+  color: var(--navy);
+}
+
+/* ── FOOTER ── */
+.footer {
+  background: var(--navy);
+  padding: 24px 60px;
+  text-align: center;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: .1em;
+  color: rgba(255,255,255,.3);
+  text-transform: uppercase;
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-eyebrow">VFI Capital Markets</div>
+  <div class="header-title">Daily Tracker Field Reference</div>
+  <div class="header-sub">Every field defined. Every section explained. Fill the form the right way, every single day.</div>
+  <div class="header-rule"></div>
+</header>
+
+<div class="how-banner">
+  <div class="how-item">
+    <div class="how-num">01</div>
+    <div class="how-text">
+      <strong>Open it at start of day</strong>
+      <span>Keep the form open throughout the day. Do not fill it from memory at 4PM.</span>
+    </div>
+  </div>
+  <div class="how-item">
+    <div class="how-num">02</div>
+    <div class="how-text">
+      <strong>Log as it happens</strong>
+      <span>Add each call to the call log immediately after hanging up while details are fresh.</span>
+    </div>
+  </div>
+  <div class="how-item">
+    <div class="how-num">03</div>
+    <div class="how-text">
+      <strong>Submit before 4PM</strong>
+      <span>Every day without exception. Use Edit Today's Submission to correct anything after.</span>
+    </div>
+  </div>
+</div>
+
+<nav class="sticky-nav">
+  <a class="nav-item active" href="#s02">02 Daily Metrics</a>
+  <a class="nav-item" href="#s03">03 Lead Sources</a>
+  <a class="nav-item" href="#s04">04 Time Blocks</a>
+  <a class="nav-item" href="#s05">05 Pipeline</a>
+  <a class="nav-item" href="#s06">06 General Notes</a>
+  <a class="nav-item" href="#s07">07 Call Log</a>
+  <a class="nav-item" href="#outcomes">Call Outcomes</a>
+</nav>
+
+<div class="main">
+
+  <!-- SECTION 02 -->
+  <section class="section" id="s02">
+    <div class="section-header">
+      <span class="section-num">SECTION 02</span>
+      <span class="section-title">Daily Metrics</span>
+    </div>
+    <div class="section-desc">Enter your running totals for the day. These should be updated throughout the day as you work, not filled in all at once at the end. Each field has a Gold Standard target shown next to it in the form.</div>
+    <table class="term-table">
+      <thead>
+        <tr>
+          <th style="width:180px">Field</th>
+          <th>Definition</th>
+          <th style="width:260px">What to count</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="td-term">Total Calls Made<div class="td-target">Target: 68</div></td>
+          <td class="td-def">Every outbound dial you make, regardless of whether someone answered. Includes calls where you left a voicemail, got a busy signal, or reached an auto-attendant.</td>
+          <td class="td-example">You dialed 45 numbers before lunch. Log 45. Add to it after lunch as you keep calling.</td>
+        </tr>
+        <tr class="alt">
+          <td class="td-term">Broker Conversations<div class="td-target">Target: 12</div></td>
+          <td class="td-def">A real two-way conversation with a broker, lender, or decision-maker. <strong>Must be an actual conversation</strong>, not a voicemail or auto-attendant. These should be completed before 11:30AM.</td>
+          <td class="td-example">You spoke with Tim for 3 minutes about a deal. That is 1 broker conversation. You left a voicemail for Sarah. That is 0.</td>
+        </tr>
+        <tr>
+          <td class="td-term">LI Connections Sent<div class="td-target">Target: 30</div></td>
+          <td class="td-def">The number of LinkedIn connection requests you sent out that day. Count requests <strong>sent</strong>, not acceptances received.</td>
+          <td class="td-example">You sent 18 connection requests before 9AM. Log 18. Do not wait until people accept.</td>
+        </tr>
+        <tr class="alt">
+          <td class="td-term">Leads Added<div class="td-target">Target: 3</div></td>
+          <td class="td-def">New leads added to Salesforce. <strong>Only count leads you actually created in the system that day</strong>, not contacts you spoke with.</td>
+          <td class="td-example">You added 4 new contacts to Salesforce. Log 4. You spoke with 12 people but only added 4 to SF. Log 4.</td>
+        </tr>
+        <tr>
+          <td class="td-term">Presentations / Proposals<div class="td-target">Target: 12</div></td>
+          <td class="td-def">The number of presentations you delivered or proposals you sent. Each time you pitch VFI's product to a new or existing contact counts as one.</td>
+          <td class="td-example">You sent 3 proposal emails and did 1 intro pitch call. Log 4.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- SECTION 03 -->
+  <section class="section" id="s03">
+    <div class="section-header">
+      <span class="section-num">SECTION 03</span>
+      <span class="section-title">Lead Sources</span>
+    </div>
+    <div class="section-desc">Where did your leads come from today? Fill in a count for every channel you used. If you have zero from a channel, leave it at zero. This tells management where your pipeline is being built from.</div>
+    <table class="term-table">
+      <thead>
+        <tr>
+          <th style="width:180px">Source</th>
+          <th>Definition</th>
+          <th style="width:260px">What to count</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="td-term">Legacy Database</td>
+          <td class="td-def">Leads sourced from the existing company database. Contacts that were already in the system before you started working them.</td>
+          <td class="td-example">You called 30 contacts from a pre-existing Salesforce list. Log 30.</td>
+        </tr>
+        <tr class="alt">
+          <td class="td-term">LeadX</td>
+          <td class="td-def">Leads sourced directly from the LeadX platform. Any contact you found through LeadX and reached out to.</td>
+          <td class="td-example">You pulled 15 new names from LeadX and called them. Log 15.</td>
+        </tr>
+        <tr>
+          <td class="td-term">LI Connection</td>
+          <td class="td-def">Leads that came from a LinkedIn connection. The person connected with you on LinkedIn and that is how the conversation started.</td>
+          <td class="td-example">You called someone who accepted your connection request. Log 1 for LI Connection.</td>
+        </tr>
+        <tr class="alt">
+          <td class="td-term">LI Message</td>
+          <td class="td-def">Leads sourced through a direct LinkedIn message. You sent them a message through LinkedIn and that initiated the conversation.</td>
+          <td class="td-example">You messaged 8 people through LinkedIn and 2 responded. Log 2.</td>
+        </tr>
+        <tr>
+          <td class="td-term">LI InMail</td>
+          <td class="td-def">Leads sourced through LinkedIn InMail specifically. InMail is a paid LinkedIn message to people you are not connected with.</td>
+          <td class="td-example">You sent 12 InMails and 3 responded positively. Log 3.</td>
+        </tr>
+        <tr class="alt">
+          <td class="td-term">Other Sources</td>
+          <td class="td-def">Anything that does not fit the five categories above. Click <strong>Add Other Source</strong>, enter the count, and write a short description of the source. Add one entry per source type.</td>
+          <td class="td-example">A broker referred 1 deal to you. Enter 1, describe as "Referral from Zak Gragg".</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="other-src-box">
+      <div class="other-src-title">Use Other Sources to track your full activity</div>
+      <div style="font-size:13px;color:var(--muted);font-weight:300;line-height:1.7;">The best performers use the Other Sources section every day to track output that does not have its own field in the form. Add these as separate entries each day:</div>
+      <div class="other-src-chips">
+        <span class="other-src-chip">General Emails Sent</span>
+        <span class="other-src-chip">LI InMail Responses Received</span>
+        <span class="other-src-chip">Email Responses Received</span>
+        <span class="other-src-chip">Set of Financials Received</span>
+        <span class="other-src-chip">Video Conference Calls (Intro)</span>
+        <span class="other-src-chip">Video Conference Calls (Follow-Up)</span>
+        <span class="other-src-chip">LinkedIn Connections Made</span>
+      </div>
+      <div style="font-size:12px;color:var(--muted);margin-top:10px;font-style:italic;">This gives management full visibility into your activity beyond the five preset lead source fields. A day where you sent 50 emails and received 7 responses should show up in the data.</div>
+    </div>
+  </section>
+
+  <!-- SECTION 04 -->
+  <section class="section" id="s04">
+    <div class="section-header">
+      <span class="section-num">SECTION 04</span>
+      <span class="section-title">Time Block Compliance</span>
+    </div>
+    <div class="section-desc">The day is structured into six blocks. Check each block off when you complete it and write what you actually did in the notes field. Do not just check the box and leave the notes blank.</div>
+
+    <div class="callout callout-tip" style="margin-bottom:24px;">
+      <strong>How to write the notes field:</strong> After completing each block, write a brief breakdown of your activity. Format: "3 Presentations | 30 Calls Made | 15 Emails Sent | 13 LI InMail Messages Sent | 11 LI Connections Sent". This is how management can see your activity by time of day, not just end-of-day totals.
+    </div>
+
+    <div class="block-grid">
+      <div class="block-card">
+        <div class="block-card-head">
+          <span class="block-card-time">7:00 — 7:30</span>
+          <span class="block-card-tag">Priority 0</span>
+        </div>
+        <div class="block-card-body">
+          <div class="block-card-focus">Priority 0 calls</div>
+          <div class="block-card-desc">Your highest-priority follow-ups from the prior day. Five calls minimum. Start the day with your most important contacts.</div>
+          <div class="block-card-note"><strong>Write in notes:</strong> "22 Calls Made | 6 Emails Sent | 6 LI InMail Messages Sent | 9 LI Connections sent"</div>
+        </div>
+      </div>
+      <div class="block-card">
+        <div class="block-card-head">
+          <span class="block-card-time">7:30 — 9:00</span>
+          <span class="block-card-tag">New Prospecting</span>
+        </div>
+        <div class="block-card-body">
+          <div class="block-card-focus">New prospecting only</div>
+          <div class="block-card-desc">Cold outreach to brand new contacts only. No re-prospecting, no follow-ups, no existing contacts during this block.</div>
+          <div class="block-card-note"><strong>Write in notes:</strong> "2 Presentations | 34 Calls Made | 15 Emails Sent | 13 LI InMail Messages Sent | 11 LI Connections sent"</div>
+        </div>
+      </div>
+      <div class="block-card">
+        <div class="block-card-head">
+          <span class="block-card-time">9:00 — 11:30</span>
+          <span class="block-card-tag">Re-Prospect</span>
+        </div>
+        <div class="block-card-body">
+          <div class="block-card-focus">Re-prospecting and underwriter calls</div>
+          <div class="block-card-desc">Follow-ups with existing contacts. Broker conversations. Push toward your 12 broker convo target by 11:30AM.</div>
+          <div class="block-card-note"><strong>Write in notes:</strong> "6 Presentations | 27 Calls Made | 2 Emails Sent | 0 LI InMail Messages Sent"</div>
+        </div>
+      </div>
+      <div class="block-card">
+        <div class="block-card-head">
+          <span class="block-card-time">11:30 — 12:00</span>
+          <span class="block-card-tag">Wild Card</span>
+        </div>
+        <div class="block-card-body">
+          <div class="block-card-focus">Email, LinkedIn, organize afternoon</div>
+          <div class="block-card-desc">No outbound calls. Use this time for email, LinkedIn messaging, and setting up your afternoon priorities.</div>
+          <div class="block-card-note"><strong>Write in notes:</strong> "1 Presentation | 3 Calls Made | 2 Emails Sent | 1 LI InMail Messages Sent"</div>
+        </div>
+      </div>
+      <div class="block-card">
+        <div class="block-card-head">
+          <span class="block-card-time">1:00 — 3:00</span>
+          <span class="block-card-tag">Proposals</span>
+        </div>
+        <div class="block-card-body">
+          <div class="block-card-focus">Proposals and pipeline follow-ups</div>
+          <div class="block-card-desc">Work on and send proposals. Follow-up calls on active pipeline. Move deals forward.</div>
+          <div class="block-card-note"><strong>Write in notes:</strong> "15 Calls Made | 21 Emails Sent | 19 LI InMail Messages Sent | 7 Leads Created Into Salesforce"</div>
+        </div>
+      </div>
+      <div class="block-card">
+        <div class="block-card-head">
+          <span class="block-card-time">3:00 — 4:00</span>
+          <span class="block-card-tag">Top 5</span>
+        </div>
+        <div class="block-card-body">
+          <div class="block-card-focus">Top 5 priorities, verify Salesforce</div>
+          <div class="block-card-desc">Review your top 5 active contacts. Make sure Salesforce is up to date. Wrap up emails and InMails.</div>
+          <div class="block-card-note"><strong>Write in notes:</strong> "4 Emails Sent | 10 LI InMail Messages Sent | 5 Leads Created Into Salesforce"</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 05 -->
+  <section class="section" id="s05">
+    <div class="section-header">
+      <span class="section-num">SECTION 05</span>
+      <span class="section-title">Pipeline Activity</span>
+    </div>
+    <div class="section-desc">Log your pipeline movement for the day. These fields track active deal progression separate from your cold outreach volume.</div>
+    <table class="term-table">
+      <thead>
+        <tr>
+          <th style="width:220px">Field</th>
+          <th>Definition</th>
+          <th style="width:260px">Example</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="td-term">Follow-Up Calls Completed</td>
+          <td class="td-def">The number of follow-up calls you completed today. A follow-up call is a call to someone you have spoken with before who is an active or warm contact. <strong>Not a cold call.</strong> These are people you have an existing conversation with.</td>
+          <td class="td-example">You called back 5 people you had previous conversations with. Log 5.</td>
+        </tr>
+        <tr class="alt">
+          <td class="td-term">Proposals Created</td>
+          <td class="td-def">The number of new proposals you wrote and sent today. One proposal sent to one company is one. This counts proposals sent, not proposals started.</td>
+          <td class="td-example">You sent proposal packets to 2 companies today. Log 2.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- SECTION 06 -->
+  <section class="section" id="s06">
+    <div class="section-header">
+      <span class="section-num">SECTION 06</span>
+      <span class="section-title">General Notes</span>
+    </div>
+    <div class="section-desc">Optional but encouraged. This field is for blockers, wins, and observations that do not fit anywhere else in the form. It is not a summary of your calls.</div>
+    <div class="callout callout-tip">
+      <strong>What to write here:</strong> Anything that affected your output that day. Examples that are useful: "Ran out of LinkedIn connection requests for the month." / "Out of leads in LeadX, need new list pulled." / "Strong morning session, three Booked Follow-Ups before 10AM." / "OOO from 1PM to end of day." / "LI blocked my account temporarily." <br><br>What not to write: A summary of calls you already logged in the Call Log section.
+    </div>
+  </section>
+
+  <!-- SECTION 07 -->
+  <section class="section" id="s07">
+    <div class="section-header">
+      <span class="section-num">SECTION 07</span>
+      <span class="section-title">Call Log</span>
+    </div>
+    <div class="section-desc">The most important section in the form. Log every meaningful call here as it happens throughout the day. A meaningful call is any call where you spoke with a real person. Only entries where you fill in a contact name will be saved.</div>
+
+    <div class="callout callout-standard">
+      <strong>Log calls immediately after hanging up.</strong> Do not wait until end of day. A call logged 30 seconds after hanging up has full detail. A call logged from memory 4 hours later has half the detail and is often missing the outcome, the deal specifics, and the next step.
+    </div>
+
+    <table class="term-table" style="margin-top:20px;">
+      <thead>
+        <tr>
+          <th style="width:180px">Field</th>
+          <th>Definition</th>
+          <th style="width:260px">Example</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="td-term">Contact Name</td>
+          <td class="td-def">The full name of the person you spoke with. First and last name.</td>
+          <td class="td-example">"Tim Olson" or "Susan Porter Griego"</td>
+        </tr>
+        <tr class="alt">
+          <td class="td-term">Title</td>
+          <td class="td-def">Their job title or role at their company.</td>
+          <td class="td-example">"Co-Founder and Managing Partner" or "SVP Business Development"</td>
+        </tr>
+        <tr>
+          <td class="td-term">Lead Source</td>
+          <td class="td-def">Which channel this lead originally came from. Select from the dropdown: Legacy Database, LeadX, LI Connection, LI Message, LI InMail, or Other. This must match where you actually found them.</td>
+          <td class="td-example">You found them on LeadX. Select LeadX. You found them via a LinkedIn connection request. Select LI Connection.</td>
+        </tr>
+        <tr class="alt">
+          <td class="td-term">Call Notes</td>
+          <td class="td-def">A detailed record of the conversation. <strong>Format every entry the same way:</strong> Start with the call type (Intro Call / Follow Up Call / Follow Up), then the phone number, then "SW [Name]" meaning Spoke With, then the substance of the conversation. Include deal specifics, dollar amounts, what was discussed, what was agreed, what you sent, and what the next step is.</td>
+          <td class="td-example">"Follow Up Call: Called 763-742-7898 — SW Tim Olson — Discussed the Country Made transaction — Referred to Rich Hickmon — Moved to marketing"</td>
+        </tr>
+        <tr>
+          <td class="td-term">Call Outcome</td>
+          <td class="td-def">Select the outcome that best describes how the call ended. Always fill this in. See the Call Outcome definitions below.</td>
+          <td class="td-example">See definitions in the next section.</td>
+        </tr>
+        <tr class="alt">
+          <td class="td-term">Objection Received</td>
+          <td class="td-def">Did the contact push back, give an excuse, or decline to engage? Select Yes, No, or leave at N/A if not applicable to the call type.</td>
+          <td class="td-example">They said "we already have a lender." Mark Yes. They were receptive and set up a call. Mark No.</td>
+        </tr>
+        <tr>
+          <td class="td-term">Objection Detail</td>
+          <td class="td-def">If you marked Yes on objection, write exactly what the objection was. Quote them if possible.</td>
+          <td class="td-example">"Already has a lender, reach out in 90 days" or "Busy, heading into a meeting"</td>
+        </tr>
+        <tr class="alt">
+          <td class="td-term">Financials Received</td>
+          <td class="td-def">Did you receive any financial documents from this contact today? Yes means documents actually arrived. No means they promised them but have not sent. N/A means financials were not relevant to this call.</td>
+          <td class="td-example">They emailed you a P&L after the call. Mark Yes. They said they will send financials next week. Mark No.</td>
+        </tr>
+        <tr>
+          <td class="td-term">Financials Quality</td>
+          <td class="td-def">If you received financials, how would you rate them? Good means usable for underwriting with audited or reviewed statements. Bad means compiled only, internals, missing key years, or not what was needed. N/A if no financials were received.</td>
+          <td class="td-example">You received a 2-year audited package. Mark Good. You received a one-page Excel they built internally. Mark Bad.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- OUTCOMES -->
+  <section class="section" id="outcomes">
+    <div class="section-header">
+      <span class="section-num">CALL LOG</span>
+      <span class="section-title">Call Outcome Definitions</span>
+    </div>
+    <div class="section-desc">Every call log entry needs an outcome selected. Pick the one that most accurately describes what happened at the end of the call.</div>
+    <div class="outcome-grid">
+      <div class="outcome-card oc-green">
+        <div class="outcome-card-label">Booked Follow-Up</div>
+        <div class="outcome-card-def">You and the contact agreed to speak again. A specific next step was set, whether a scheduled call, a promised email, or a time to reconnect.</div>
+        <div class="outcome-card-ex">"He asked me to call him back next Tuesday." / "I sent a conference call email." / "She said to reach out in 30 days."</div>
+      </div>
+      <div class="outcome-card oc-amber">
+        <div class="outcome-card-label">Left Voicemail</div>
+        <div class="outcome-card-def">You reached voicemail and left a message. No live conversation happened. Use this when you want to track that an outreach attempt was made.</div>
+        <div class="outcome-card-ex">"Called, got voicemail, left a message with callback number."</div>
+      </div>
+      <div class="outcome-card oc-red">
+        <div class="outcome-card-label">Not Interested</div>
+        <div class="outcome-card-def">The contact explicitly said they are not interested, are unqualified for what we do, or do not refer transactions. Move them to marketing only in Salesforce.</div>
+        <div class="outcome-card-ex">"They don't refer transactions." / "NGO, unqualified, moved to marketing." / "Not interested in connecting."</div>
+      </div>
+      <div class="outcome-card oc-blue">
+        <div class="outcome-card-label">Moved to Active</div>
+        <div class="outcome-card-def">This contact has a real deal in progress. You are actively working an opportunity with them. Financials have been requested or received, or a term sheet is being prepared.</div>
+        <div class="outcome-card-ex">"They sent financials and we are preparing a term sheet." / "Updated financials requested, deal is moving."</div>
+      </div>
+      <div class="outcome-card oc-navy">
+        <div class="outcome-card-label">Proposal Sent</div>
+        <div class="outcome-card-def">You sent a formal proposal or term sheet to this contact today as a direct result of this call or conversation.</div>
+        <div class="outcome-card-ex">"Emailed them a full proposal package during the call." / "Sent term sheet following this conversation."</div>
+      </div>
+      <div class="outcome-card oc-gray">
+        <div class="outcome-card-label">Other</div>
+        <div class="outcome-card-def">Use when none of the above fit. <strong>Always fill in the description field that appears when you select Other.</strong> Do not leave it blank.</div>
+        <div class="outcome-card-ex">"Referred to colleague at same firm." / "Transaction discussion, deal NAGF." / "Wrong contact, moving to marketing." / "Sent conference call email."</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- THE STANDARD -->
+  <div class="the-standard">
+    <div class="ts-eyebrow">The Standard</div>
+    <div class="ts-title">Fill it out the right way, every day.</div>
+    <div class="ts-body">Every section filled in. Every call logged immediately after it happens. Time block notes written with real activity counts, not left blank. Other Sources used to track your full output. Submitted before 4PM without exception.</div>
+    <div class="ts-highlight">The form takes 60 seconds per call logged in real time. It takes 30 minutes reconstructed from memory at end of day. Do it throughout the day.</div>
+  </div>
+
+</div>
+
+<div class="footer">VFI Capital Markets &nbsp;·&nbsp; Daily Tracker Reference Guide</div>
+
+<script>
+// Active nav highlighting on scroll
+const sections = document.querySelectorAll('section[id], div[id="outcomes"]');
+const navItems = document.querySelectorAll('.nav-item');
+
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      navItems.forEach(n => n.classList.remove('active'));
+      const active = document.querySelector(`.nav-item[href="#${entry.target.id}"]`);
+      if (active) active.classList.add('active');
+    }
+  });
+}, { threshold: 0.3, rootMargin: '-60px 0px -50% 0px' });
+
+sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
