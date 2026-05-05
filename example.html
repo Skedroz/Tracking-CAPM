@@ -207,6 +207,22 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
   <div class="example-notice-icon">📋</div>
   <div class="example-notice-text"><strong>This is a read-only example of a correctly filled submission.</strong> Every field, section, and call outcome shown below represents the standard. Scroll to the bottom to see how this submission appears in the manager dashboard.</div>
 </div>
+<div style="background:#0a1628;padding:0 32px;display:flex;gap:0;border-bottom:1px solid rgba(255,255,255,.08);">
+  <a href="index.html" style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.45);padding:14px 22px;text-decoration:none;border-bottom:2px solid transparent;white-space:nowrap;" id="tab-ref">Field Reference</a>
+  <a href="example.html" style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.45);padding:14px 22px;text-decoration:none;border-bottom:2px solid transparent;white-space:nowrap;" id="tab-ex">Filled Example</a>
+</div>
+<script>
+(function(){
+  var path = window.location.pathname;
+  if(path.indexOf('example') > -1){
+    document.getElementById('tab-ex').style.color='#d97706';
+    document.getElementById('tab-ex').style.borderBottomColor='#d97706';
+  } else {
+    document.getElementById('tab-ref').style.color='#d97706';
+    document.getElementById('tab-ref').style.borderBottomColor='#d97706';
+  }
+})();
+</script>
 
 <div class="container">
 
