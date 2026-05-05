@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Capital Markets Daily Tracker — Field Reference</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
 <style>
 :root {
   --navy: #0a1628;
@@ -481,7 +481,22 @@ body {
   <div class="header-sub">Every field defined. Every section explained. Fill the form the right way, every single day.</div>
   <div class="header-rule"></div>
 </header>
-
+<div style="background:#0a1628;padding:0 60px;display:flex;gap:0;border-bottom:1px solid rgba(255,255,255,.08);">
+  <a href="index.html" style="font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.45);padding:14px 22px;text-decoration:none;border-bottom:2px solid transparent;white-space:nowrap;transition:all .2s;" id="tab-ref">Field Reference</a>
+  <a href="example.html" style="font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.45);padding:14px 22px;text-decoration:none;border-bottom:2px solid transparent;white-space:nowrap;transition:all .2s;" id="tab-ex">Filled Example</a>
+</div>
+<script>
+(function(){
+  var path = window.location.pathname;
+  if(path.indexOf('example') > -1){
+    document.getElementById('tab-ex').style.color='#c9a84c';
+    document.getElementById('tab-ex').style.borderBottomColor='#c9a84c';
+  } else {
+    document.getElementById('tab-ref').style.color='#c9a84c';
+    document.getElementById('tab-ref').style.borderBottomColor='#c9a84c';
+  }
+})();
+</script>
 <div class="how-banner">
   <div class="how-item">
     <div class="how-num">01</div>
